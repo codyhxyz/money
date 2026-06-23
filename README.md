@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="docs/banner.svg" alt="money — let your AI see your real money, then ask it anything about your finances" width="640" />
+  <img src="docs/banner.svg" alt="money — AI-ready financial context from your bank" width="640" />
 </p>
 
 # money
 
-**Give your AI your real financial picture — then ask it anything.**
+**Ground your AI's financial advice in your actual money — not guesses.**
 
-`money` is a tiny local CLI that reads your accounts, balances, and recent transactions from the [Teller API](https://teller.io) and lays them out as plain text your AI can read. No server, no database — nothing leaves your machine except a direct call to your bank.
+`money` is a tiny local CLI that fetches your accounts, balances, and transactions from the [Teller API](https://teller.io) and turns them into a clean markdown summary your AI agent can actually reason about. No server. No database. Nothing leaves your machine except a direct, authenticated call to your bank's API.
 
 <p>
   <a href="https://github.com/codyhxyz/money/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/codyhxyz/money/ci.yml?branch=main&label=CI&logo=github"></a>
@@ -15,44 +15,47 @@
   <a href="./LICENSE"><img alt="license" src="https://img.shields.io/github/license/codyhxyz/money?color=blue"></a>
 </p>
 
-> **What you get.** An informed conversation with your AI about your own finances. `money` hands your AI the facts — balances, spending, recent transactions — as plain text, and your AI does whatever analysis you ask of it.
+> **What it gives you.** Run one command, get a single block of markdown — balances, cash-flow summary, top categories and merchants, recent transactions — that you paste into any LLM conversation to get real, grounded financial advice instead of guesses.
 
 ## What it does & why
 
-You can't get useful financial help from an AI that can't see your money. `money` fixes that: it reads your accounts, balances, and recent transactions from the [Teller API](https://teller.io) and puts them in front of your AI as plain text it can reason over.
-
-The point isn't to predict what you'll ask — it's to get out of the way. `money` makes almost no assumptions about how your AI uses the data, so your AI can answer whatever you actually want to know: where your money went, whether you can afford something, how to think about a goal, what changed this month.
+`money` exists to close a gap: your AI assistant is great at financial reasoning but has no access to your actual money. Wiring an agent to your bank account directly is risky and overkill for most people. `money` takes the simple path — **fetch → summarize locally → paste** — so your data arrives in your conversation as plain text, on your terms.
 
 **Design principles:**
 
 - **Local-first.** Runs on your machine; no server, no persistence, no telemetry.
-- **Minimal.** One job: get your real financial data in front of your AI. No framework, no bloat.
-- **Open by default.** No assumptions about what you'll ask; your AI brings the intelligence.
+- **Minimal.** One job: shape Teller data into AI-ready context. No framework, no SDK bloat.
 - **Deterministic output** that's easy to read and easy to diff.
-- **Fail closed.** Missing setup stops the run; nothing is ever guessed.
+- **Fail closed.** Missing credentials stop the run; nothing is ever guessed.
+- **Privacy by default.** Credentials are gitignored and never printed; account IDs can be redacted before you share output.
 
-## Quickstart
+## Quickstart — for humans working with AI
 
-Ask your AI. Point your assistant at this repository — say something like *"set up `money` from `github.com/codyhxyz/money` and give me my financial context for the last 90 days"* — and it can read this README, install the tool, and run it for you.
+You don't type these commands. You tell your AI assistant what you want and let it operate the tool for you. Point your agent at this README; it has everything it needs to set things up and run the tool.
 
-The only things it can't do are yours, because they're your banking details:
+**Say something like:**
 
-1. Your **Teller application certificate and private key** — get them from the [Teller Dashboard](https://teller.io).
-2. Your **access token** — link a bank with Teller Connect. Your agent can open [`examples/login.html`](./examples/login.html) for you; you connect your bank in the browser, and the token appears to copy into `.env`.
+> "Set up the `money` tool from `github.com/codyhxyz/money` and give me my financial context for the last 90 days."
 
-Your agent then runs the whole flow:
+**What only you can provide** (your agent can't do these — they're your banking credentials):
+
+1. A **Teller application certificate + private key** — create/download these in the [Teller Dashboard](https://teller.io).
+2. An **access token** — link a bank with Teller Connect. Your agent can serve the helper at [`examples/login.html`](./examples/login.html), you connect your bank in the browser, and the token appears for you to copy into `.env`.
+
+**Your agent then runs the whole flow:**
 
 ```bash
 pnpm install
-cp .env.example .env      # agent fills this with your banking details — never committed
-pnpm teller context --days 90
-pnpm teller context --days 90 --redact-accounts   # safe to share anywhere
+cp .env.example .env
+# agent fills .env with your credentials (never committed)
+pnpm teller context --days 90      # prints markdown context
+pnpm teller context --days 90 --redact-accounts   # safe to paste anywhere
 ```
 
-…and hands you back the result, or pastes it straight into the conversation you're already in. That's the entire loop.
+Your agent returns the markdown to you (or pastes it straight into the conversation you're already in). That's the entire loop.
 
 <details>
-<summary><strong>Example: what your AI gets</strong></summary>
+<summary><strong>Example: what the AI-ready context looks like</strong></summary>
 
 Illustrative, redacted sample of <code>money context --days 90 --redact-accounts</code>:
 
@@ -107,7 +110,7 @@ Use this as concrete context for financial coaching. Do not infer facts that are
 
 | Command | What it prints |
 | --- | --- |
-| `money context` *(default)* | A plain-text summary of balances + recent transactions |
+| `money context` *(default)* | AI-ready markdown summary of balances + recent transactions |
 | `money accounts` | Accounts and balances as a table |
 | `money transactions` | Recent transactions as a table |
 
@@ -126,33 +129,33 @@ Use this as concrete context for financial coaching. Do not infer facts that are
 pnpm teller context --days 90 --limit 200
 pnpm teller transactions --days 30 --json
 pnpm teller context --account acc_xxx --account acc_yyy
-pnpm teller context --redact-accounts        # before sharing anywhere
+pnpm teller context --redact-accounts        # before pasting anywhere
 ```
 
-> **Note:** `pnpm teller` runs via `tsx`. Once installed globally/linked, the binary is just `money`.
+> **Note:** `pnpm teller` runs via `tsx`. Once published/linked, the binary is just `money`.
 
 ## Output formats
 
-`money` speaks three formats so it slots into whichever way you work with your AI:
+`money` speaks three formats so it slots into whichever workflow you use:
 
-- **Plain text** (`context`) — paste into any chat or agent. Grounded, structured, concise.
+- **Markdown** (`context`) — paste into any LLM chat or agent. Grounded, structured, concise.
 - **Tables** (`accounts`, `transactions`) — read it yourself in the terminal.
-- **JSON** (`--json`) — feed to another tool, script, or agent that wants the raw shape.
+- **JSON** (`--json`) — feed to another local tool, script, or agent that wants the raw shape.
 
 ## How it works
 
 ```mermaid
 flowchart LR
-  A[".env banking details"] --> B["Teller API\nmTLS + Basic Auth"]
+  A[".env credentials"] --> B["Teller API\nmTLS + Basic Auth"]
   B --> C["accounts / balances / transactions"]
   C --> D["local filter & summarize\n(date window, top categories)"]
-  D --> E["plain text · tables · JSON"]
+  D --> E["markdown · tables · JSON"]
   E --> F["paste into your\nAI conversation"]
 ```
 
 | Entity | Source | Role in `money` |
 | --- | --- | --- |
-| You | the human | Holds banking details and decides what to share |
+| User | you | Holds credentials and decides what data to share |
 | Enrollment | Teller Connect access token | Grants API access — never printed |
 | Account | `GET /accounts` | Maps your institution accounts |
 | Balance | `GET /accounts/:id/balances` | Current cash/debt position |
@@ -166,7 +169,7 @@ src/
 ├── cli.ts          # commands & flags (commander)
 ├── config.ts       # .env + certificate loading
 ├── teller.ts        # Teller API client (mTLS + Basic Auth)
-├── presenter.ts     # plain text/tables/summaries + redaction
+├── presenter.ts     # markdown/tables/summaries + redaction
 ├── types.ts         # minimal Teller-shaped types
 └── index.ts         # library exports
 examples/login.html  # Teller Connect token helper
@@ -175,7 +178,7 @@ examples/login.html  # Teller Connect token helper
 
 ## Configuration
 
-Copy the template and fill in your banking details:
+Copy the template and fill in your credentials:
 
 ```bash
 cp .env.example .env
@@ -189,25 +192,26 @@ cp .env.example .env
 | `TELLER_APPLICATION_ID` | optional | Used by `examples/login.html` only |
 | `TELLER_API_BASE_URL` | optional | Defaults to `https://api.teller.io` |
 
-\* Provide your certificate and key **either** as file paths **or** as inline PEM — one of the two is required.
+\* Provide credentials **either** as file paths **or** as inline PEM — one of the two is required.
 
-Keep them out of git (e.g. in an ignored `./certs/` directory). `.gitignore` already excludes `.env`, `certs/`, and PEM/key/crt files.
+Keep certs and keys out of git (e.g. in an ignored `./certs/` directory). `.gitignore` already excludes `.env`, `certs/`, and PEM/key/crt files.
 
-## Trust & privacy
+## Security & privacy
 
-This reads your real banking data, so the real question is whether you can trust it — and Teller — with that. Here's the basis for deciding:
+Because this touches your real money, the defaults are conservative:
 
-- Your data goes only to Teller's API and back to your terminal. No third parties, no logging, no telemetry.
-- Everything runs on your machine; there's no server, no database, nothing kept between runs.
-- Your banking details are never printed, are gitignored by default, and error messages are cleaned up so they never leak into output.
-- Missing setup stops the run cold — it never guesses or proceeds without what it needs.
-- Use `--redact-accounts` before sharing output anywhere you don't want your account identifiers exposed.
+- `.env`, `certs/`, and `*.pem` / `*.key` / `*.crt` files are gitignored.
+- Access tokens, certificates, and private keys are **never** printed.
+- Axios errors are sanitized so request config and auth headers aren't dumped.
+- **Fail closed** on missing credentials — the run stops rather than guessing.
+- Data goes only to Teller's API and back to your terminal. No third parties, no logging, no telemetry.
+- Use `--redact-accounts` before pasting output anywhere you don't want your Teller account/enrollment IDs exposed.
 
-You stay in control: your banking details live on your machine, and you decide what gets shared and where.
+You remain the trust boundary: credentials live on your machine, and you decide what output gets shared and where.
 
 ## Development
 
-For contributors (separate from the everyday flow above):
+For contributors (separate from the user flow above):
 
 ```bash
 pnpm install
@@ -229,7 +233,11 @@ The CLI program is wired in [`src/cli.ts`](./src/cli.ts); the Teller client in [
 
 ## Contributing
 
-Issues and pull requests are welcome at [`codyhxyz/money`](https://github.com/codyhxyz/money). For bugs, include the command you ran and the sanitized error output (never your banking details). Keep changes minimal and aligned with the design principles above.
+Issues and pull requests are welcome at [`codyhxyz/money`](https://github.com/codyhxyz/money). For bugs, include the command you ran and the sanitized error output (never your credentials). Keep changes minimal and aligned with the design principles above.
+
+## Acknowledgements
+
+Built on well-maintained, boring tools: the [Teller API](https://teller.io), [`axios`](https://github.com/axios/axios), [`commander`](https://github.com/tj/commander.js), and [`dotenv`](https://github.com/motdotla/dotenv).
 
 ## License
 
