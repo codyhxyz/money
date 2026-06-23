@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Teller Connect Token Helper</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 720px; margin: 4rem auto; padding: 0 1rem; }
+      code, pre { background: #f4f4f5; border-radius: 6px; padding: 0.75rem; }
+      pre { white-space: pre-wrap; }
+      button { font: inherit; padding: 0.65rem 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Teller Connect Token Helper</h1>
+    <p>Enter your Teller application id, connect your bank, and copy the returned access token into <code>.env</code>.</p>
+    <label>
+      Application id
+      <input id="application-id" value="app_xxx" style="font: inherit; padding: 0.5rem; width: 24rem; max-width: 100%;" />
+    </label>
+    <p><button id="connect">Connect Teller</button></p>
+    <pre id="result">No token yet.</pre>
+
+    <script src="https://cdn.teller.io/connect/connect.js"></script>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const input = document.getElementById("application-id");
+      input.value = params.get("application_id") || input.value;
+      const result = document.getElementById("result");
+
+      document.getElementById("connect").addEventListener("click", () => {
+        TellerConnect.setup({
+          applicationId: input.value.trim(),
+          onSuccess(enrollment) {
+            const token = enrollment.accessToken || enrollment.access_token;
+            result.textContent = token ? `TELLER_ACCESS_TOKEN=${token}` : JSON.stringify(enrollment, null, 2);
+          },
+          onExit() {
+            result.textContent = "Teller Connect exited.";
+          }
+        }).open();
+      });
+    </script>
+  </body>
+</html>
