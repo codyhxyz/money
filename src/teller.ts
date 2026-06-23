@@ -11,7 +11,7 @@ export class TellerClient {
       baseURL: config.baseUrl,
       auth: { username: config.accessToken, password: "" },
       httpsAgent: new https.Agent({ cert: config.cert, key: config.key }),
-      headers: { "User-Agent": "teller-ai-wrapper/0.1" },
+      headers: { "User-Agent": "money/0.1" },
       timeout: 30_000
     });
   }

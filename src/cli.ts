@@ -15,8 +15,8 @@ import type { AccountSnapshot, TransactionWithAccount } from "./types.js";
 const program = new Command();
 
 program
-  .name("teller-ai")
-  .description("Minimal Teller API wrapper for AI-ready personal finance context")
+  .name("money")
+  .description("Turn your Teller banking data into AI-ready financial context")
   .version("0.1.0")
   .option("--env <path>", "path to .env file", ".env");
 

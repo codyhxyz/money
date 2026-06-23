@@ -1,12 +1,11 @@
 {
-  "name": "teller-ai-wrapper",
+  "name": "money",
   "version": "0.1.0",
-  "description": "Minimal pnpm/CLI wrapper that turns Teller account data into AI-ready financial context.",
+  "description": "Turn your Teller banking data into AI-ready financial context.",
   "type": "module",
   "license": "MIT",
   "bin": {
-    "teller-ai": "dist/cli.js",
-    "financial-advisor": "dist/cli.js"
+    "money": "dist/cli.js"
   },
   "files": [
     "dist",
