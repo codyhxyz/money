@@ -4,7 +4,7 @@
 
 # money
 
-**Turn your Teller banking data into AI-ready financial context.**
+**Ground your AI's financial advice in your actual money — not guesses.**
 
 `money` is a tiny local CLI that fetches your accounts, balances, and transactions from the [Teller API](https://teller.io) and turns them into a clean markdown summary your AI agent can actually reason about. No server. No database. Nothing leaves your machine except a direct, authenticated call to your bank's API.
 
