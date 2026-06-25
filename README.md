@@ -90,9 +90,9 @@ Current scope:
 - There is no frontend that would make all of this look pretty.
 - There are no convenience features for transaction clustering.
 
-## Extensions
+## Extending my work
 
-Two obvious directions:
+Two obvious directions you can take this project:
 
 1. Extend the tool for specific financial uses:
    - budget creation
