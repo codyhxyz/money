@@ -14,6 +14,7 @@ I built `teller-cli` as the simplest-possible CLI tool to fetch my bank balances
 ## What this isn't
 
 `teller-cli` is not a budgeting app. It is not a YNAB or Rocket Money replacement. It just prints transaction and balance data to the console. 
+The design philosophy for this tool was inspired by Mario Zechner's pi: keep the system as minimal as possible, with an eye for making it modular and extensible. AI agents can use this to do awesome stuff. You can't imagine all of what users will want from it, so don't overbuild. Restraint enables users to extend your tool into their own bespoke software.
 
 ## Getting Started
 
@@ -85,7 +86,9 @@ This is a minimal, local wrapper around Teller. I don't touch your data, that's 
 Current scope:
 
 - Teller is the only data source.
-- There is no scheduled sync or database
+- There is no scheduled sync or database.
+- There is no frontend that would make all of this look pretty.
+- There are no convenience features for transaction clustering.
 
 ## Extensions
 
@@ -102,8 +105,6 @@ Two obvious directions:
    - [Plaid](https://plaid.com/)
    - [Quiltt](https://www.quiltt.io/)
    - [MX](https://www.mx.com/)
-
-Any of these providers could make sense. Teller is the default here because it works well for a minimalist developer tool: it is straightforward to set up, does not require waiting for approval before experimenting, and is friendly to someone building against their own financial data.
 
 
 ## License
