@@ -19,26 +19,15 @@ I built `money` as the simplest-possible CLI tool to fetch my bank balances and 
   <img src="docs/demo.gif" alt="money context demo" width="100%" />
 </p>
 
-## About
+## What this does
 
-`money` gives AI assistants the financial context that will help them help you make better financial decisions.
+`money` is a CLI tool that AI agents can use to give you accurate, data-based financial advice.
 
-It can include:
+This allows an AI to spot trends in spending, cluster spending categories, create budgets, document net cash flow, and more.
 
-- account balances
-- recent transactions
-- income, spending, and net cash flow
-- top spending categories
-- top merchants/counterparties
-- optional redaction of Teller account and enrollment IDs
+## What this isn't
 
-The workflow is intentionally boring:
-
-```text
-Teller → local CLI → markdown summary → AI conversation
-```
-
-`money` is not a budgeting app, a bank dashboard, a sync service, or an agent framework. It does one job: shape your Teller banking data into context an AI assistant can use.
+`money` is not a budgeting app. It is not a YNAB or Rocket Money replacement. This tool could, however, be used to create applications like that.
 
 ## Getting Started
 
@@ -52,18 +41,6 @@ You need:
 - a Teller access token for your linked bank account
 
 ### Quickstart
-
-The first successful run is an AI-ready financial context summary:
-
-```sh
-npm run money -- context --days 90
-```
-
-For output that is safer to return into an AI conversation, redact Teller account/enrollment IDs:
-
-```sh
-npm run money -- context --days 90 --redact-accounts
-```
 
 If you are using an AI coding agent, point it at this README and say:
 
