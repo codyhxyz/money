@@ -131,6 +131,7 @@ Two obvious directions you can take this project if you want to remix it:
    - [Quiltt](https://www.quiltt.io/)
    - [MX](https://www.mx.com/)
 
+Bonne chance!
 
 ## License
 
