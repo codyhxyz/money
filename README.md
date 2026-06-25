@@ -95,7 +95,7 @@ flowchart LR
 
 ## Security & Privacy
 
-This is a minimal, local wrapper around Teller. I don't touch your data—that's between you and Teller. 🤫
+This is a minimal, local wrapper around Teller. This doesn't touch your data—that's between you and Teller. 🤫
 
 
 ## Limitations
@@ -107,9 +107,9 @@ Current scope:
 - There is no frontend that would make all of this look pretty.
 - There are no convenience features for transaction clustering.
 
-## Extending my work
+## Extending this project
 
-Two obvious directions you can take this project:
+Two obvious directions you can take this project if you want to remix it:
 
 1. Extend the tool for specific financial uses:
    - budget creation
