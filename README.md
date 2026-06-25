@@ -13,7 +13,7 @@ I built `teller-cli` as the simplest-possible CLI tool to fetch my bank balances
 
 ## What this isn't
 
-`teller-cli` is not a budgeting app. It is not a YNAB or Rocket Money replacement. It just prints transaction and balance data to the console. It could, however, be used in such an application.
+`teller-cli` is not a budgeting app. It is not a YNAB or Rocket Money replacement. It just prints transaction and balance data to the console. 
 
 ## Getting Started
 
